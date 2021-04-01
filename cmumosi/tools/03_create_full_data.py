@@ -10,11 +10,11 @@ import scipy.io as sio
 import time
 
 
-TEXT_PATH = '../CMU_MOSI_Raw/Transcript/Segmented/'
-LABEL_PATH = '../CMU_MOSI_Raw/Labels/OpinionLevelSentiment.csv'
-AUDIO_PATH = 'cmumosi_alignmets_full.pkl'
+TEXT_PATH = '../../../CMU_MOSI_Raw/Transcript/Segmented/'
+LABEL_PATH = '../../../CMU_MOSI_Raw/Labels/OpinionLevelSentiment.csv'
+AUDIO_PATH = '../../../self_study/cmumosi_alignmets_full_all.pkl'
 
-OUTPUT = 'cmumosi_full.pkl'
+OUTPUT = '../../../self_study/cmumosi_full_all.pkl'
 
 def main():
 
@@ -24,6 +24,8 @@ def main():
 
     for index, row in df.iterrows():
         video_id = row['video_id']
+        # if video_id == 'c5xsKMxpXnc':
+        #     continue
         segment_no = row['segment_no']
         segment_name = row['video_id'] + '_' + str(segment_no)
         print(segment_name)
@@ -44,6 +46,7 @@ def main():
         segment_audios = []
         segment_intervals = []
         segment_words = []
+        segment_videos = []
         word_cnt = len(audios[video_id]['features'])
         for cnt in range(word_cnt):
             interval = audios[video_id]['intervals'][cnt]
@@ -57,6 +60,10 @@ def main():
             else:
                 segment_words.append(audios[video_id]['features'][cnt])
                 segment_audios.append(audios[video_id]['audio'][cnt])
+                if len(audios[video_id]['video']) > 0:
+                    segment_videos.append(audios[video_id]['video'][cnt])
+                else:
+                    segment_videos.append([])
                 segment_intervals.append(interval)
         
         segment = {}
@@ -65,7 +72,8 @@ def main():
         segment['text'] = text
         segment['words'] = np.array(segment_words)
         segment['audio'] = np.array(segment_audios)
-        segment['audio_intervals'] = np.array(segment_intervals)
+        segment['video'] = np.array(segment_videos)
+        segment['word_intervals'] = np.array(segment_intervals)
         segment['intervals'] = np.array([segment_start, segment_end])
 
         ret[segment_name] = segment

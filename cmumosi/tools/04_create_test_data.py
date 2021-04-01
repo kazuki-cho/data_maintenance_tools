@@ -24,14 +24,17 @@ bug_data = []
 # standard_valid_fold=['5W7Z1C_fDaE']
 # standard_test_fold=['BXuRRbG0Ugk']
 
-select_cols = [ 1, 3, 6, 25, 60 ]
+audio_select_cols = [ 1, 3, 6, 25, 60 ]
+video_select_cols = []
+# video_select_cols = [0, 2, 5, 10, 11, 12, 14, 17, 20, 21, 22, 24, 25, 29, 30, 31, 32, 36, 37, 40]
 
 
 # WORD_PATH = 'cmumosi_word_alignments.pkl'
 # AUDIO_PATH = 'cmumosi_audio_aligned.pkl'
 # Label_PATH = '../CMU_MOSI_Raw/Labels/OpinionLevelSentiment.csv'
-INPUT_DATA = 'cmumosi_full.pkl'
-OUTPUT = 'data'
+# INPUT_DATA = '../self_study/cmumosi_full.pkl'
+INPUT_DATA = '../../../self_study/cmumosi_full_vocab.pkl'
+OUTPUT = '../../../self_study/data'
 SEQUENCE_LEN = 50
 
 
@@ -43,6 +46,9 @@ def main():
     audio_train_data = []
     audio_valid_data = []
     audio_test_data = []
+    video_train_data = []
+    video_valid_data = []
+    video_test_data = []
 
     full_data = pickle.load(open(INPUT_DATA, 'rb'))
 
@@ -51,16 +57,25 @@ def main():
         video_id = segment['video_id']
 
         audio = segment['audio']
-        if len(select_cols) != 0:
-            audio = audio[:, select_cols]
+        video = segment['video']
+        if len(audio_select_cols) != 0:
+            audio = audio[:, audio_select_cols]
+        if len(video_select_cols) != 0:
+            video = video[:, video_select_cols]
         audio_len = audio.shape[0]
+        video_len = video.shape[0]
 
         if audio_len > SEQUENCE_LEN:
             audio = audio[0: SEQUENCE_LEN]
         if audio_len < SEQUENCE_LEN:
             zero_features = np.zeros((SEQUENCE_LEN - audio_len, audio.shape[1]))
-            # print(zero_intervales.shape)
             audio = np.concatenate([audio, zero_features])
+        
+        if video_len > SEQUENCE_LEN:
+            video = video[0: SEQUENCE_LEN]
+        if video_len < SEQUENCE_LEN:
+            zero_features = np.zeros((SEQUENCE_LEN - video_len, video.shape[1]))
+            video = np.concatenate([video, zero_features])
         
 
         text = {'text': segment['text'].strip(), 'label': segment['label']}
@@ -70,20 +85,24 @@ def main():
             # print(audio.shape)
             word_train_data.append(text)
             audio_train_data.append(audio)
+            video_train_data.append(video)
         elif video_id in standard_valid_fold and video_id not in bug_data:
         # elif video_id in standard_valid_fold:
             # print(audio.shape)
             word_valid_data.append(text)
             audio_valid_data.append(audio)
+            video_valid_data.append(video)
         elif video_id in standard_test_fold and video_id not in bug_data:
         # elif video_id in standard_test_fold:
             # print(audio.shape)
             word_test_data.append(text)
             audio_test_data.append(audio)
+            video_test_data.append(video)
         else:
             continue
 
     output_audio(audio_train_data, audio_valid_data, audio_test_data)
+    output_video(video_train_data, video_valid_data, video_test_data)
     output_text(word_train_data, word_valid_data, word_test_data)
 
 
@@ -149,11 +168,11 @@ def main():
 def output_audio(audio_train_data, audio_valid_data, audio_test_data):
     new_audio_data = []
     audio_train_data = np.array(audio_train_data)
-    print(audio_train_data.shape)
+    # print(audio_train_data.shape)
     audio_valid_data = np.array(audio_valid_data)
-    print(audio_valid_data.shape)
+    # print(audio_valid_data.shape)
     audio_test_data = np.array(audio_test_data)
-    print(audio_test_data.shape)
+    # print(audio_test_data.shape)
     # new_audio_data.append(audio_train_data)
     # new_audio_data.append(audio_valid_data)
     # new_audio_data.append(audio_test_data)
@@ -161,6 +180,19 @@ def output_audio(audio_train_data, audio_valid_data, audio_test_data):
 
     with open(OUTPUT + '/audio/cmumosi_audio.pkl', mode='wb') as f:
         pickle.dump(new_audio_data, f)
+
+def output_video(video_train_data, video_valid_data, video_test_data):
+    new_video_data = []
+    video_train_data = np.array(video_train_data)
+    print(video_train_data.shape)
+    video_valid_data = np.array(video_valid_data)
+    print(video_valid_data.shape)
+    video_test_data = np.array(video_test_data)
+    print(video_test_data.shape)
+    new_video_data = np.array([video_train_data, video_valid_data, video_test_data])
+
+    with open(OUTPUT + '/video/cmumosi_video.pkl', mode='wb') as f:
+        pickle.dump(new_video_data, f)
 
 def output_text(word_train_data, word_valid_data, word_test_data):
     df_train = pd.DataFrame(word_train_data)

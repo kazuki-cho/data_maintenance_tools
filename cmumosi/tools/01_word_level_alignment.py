@@ -3,7 +3,7 @@ import sys
 import pandas as pd
 import glob
 import pickle
-sys.path.append('../p2fa_py3')
+sys.path.append('../../../p2fa_py3')
 from p2fa import align
 
 # WAV_FILE_PATH = '../CMU_MOSI_Raw/Audio/WAV_16000/Segmented/03bSnISJMiM_1.wav'
