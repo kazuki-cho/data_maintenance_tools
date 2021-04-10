@@ -12,8 +12,8 @@ dev_text = '../../../Cross-Modal-BERT/data/text/dev.tsv'
 train_text = '../../../Cross-Modal-BERT/data/text/train.tsv'
 test_text = '../../../Cross-Modal-BERT/data/text/test.tsv'
 
-full_data_path = '../../../self_study/cmumosi_full_all.pkl'
-noaligne_path = '../../../self_study/cmumosi_audio_noalign.pkl'
+full_data_path = '../../../data/cmumosi_full_all.pkl'
+noaligne_path = '../../../data/cmumosi_audio_noalign.pkl'
 
 OUTPUT = '../../../Cross-Modal-BERT/data/audio/'
 

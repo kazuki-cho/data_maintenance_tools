@@ -206,5 +206,3 @@ def output_text(word_train_data, word_valid_data, word_test_data):
 
 if __name__ == '__main__':
     main()
-
-

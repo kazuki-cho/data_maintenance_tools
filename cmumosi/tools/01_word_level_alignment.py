@@ -6,14 +6,17 @@ import pickle
 sys.path.append('../../../p2fa_py3')
 from p2fa import align
 
+CMU_MOSI_RAW_PATH = '../../../CMU_MOSI_Raw/'
+
 # WAV_FILE_PATH = '../CMU_MOSI_Raw/Audio/WAV_16000/Segmented/03bSnISJMiM_1.wav'
-WAV_DIR_PATH = '../CMU_MOSI_Raw/Audio/WAV_16000/Full/'
+WAV_DIR_PATH = CMU_MOSI_RAW_PATH + 'Audio/WAV_16000/Full/'
 # TRANSCRIPT_FILE_PATH = '../CMU_MOSI_Raw/Transcript/Segmented/03bSnISJMiM.annotprocessed'
 # TRANSCRIPT_DIR_PATH = '../CMU_MOSI_Raw/Transcript/Segmented/'
-TRANSCRIPT_DIR_PATH = '../CMU_MOSI_Raw/Transcript/Full/'
-TEMP_DIR = 'tmp_full/'
-OUTPUT_DIR = 'output_full/'
-word_alignments_pickle = 'cmumosi_word_alignments.pkl'
+TRANSCRIPT_DIR_PATH = CMU_MOSI_RAW_PATH + 'Transcript/Full/'
+DATA_PATH = '../../../data/'
+TEMP_DIR = DATA_PATH + 'tmp_full/'
+OUTPUT_DIR = DATA_PATH + 'output_full/'
+word_alignments_pickle = DATA_PATH + 'cmumosi_word_alignments.pkl'
 
 
 def main():
@@ -23,8 +26,8 @@ def main():
     tensors = {}
 
     for transcript_file in transcript_files:
+        print(transcript_file)
         video_id = os.path.splitext(os.path.basename(transcript_file))[0]
-        # 文字列を抽出
         # df = pd.read_csv(transcript_file, sep='_', header=None, names=['no', 'delim', 'sentence'])
         df = pd.read_csv(transcript_file, sep='@', header=None, names=['sentence'])
         df = df['sentence'].str.split(' ', expand=True)
@@ -68,5 +71,3 @@ def generat_features(word_alignments):
 
 if __name__ == '__main__':
     main()
-
-

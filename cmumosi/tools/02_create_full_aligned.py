@@ -15,12 +15,12 @@ from mmsdk import mmdatasdk as md
 from mmsdk.mmdatasdk.computational_sequence.file_ops import *
 
 
-WORD_ALIGN = '../../../self_study/cmumosi_word_alignments.pkl'
+WORD_ALIGN = '../../../data/cmumosi_word_alignments.pkl'
 FULL_COVAREP_DIR = '../../../CMU_MOSI_Raw/Audio/WAV_16000/COVAREP/'
 FULL_FACET42 = '../../../CMU-MultimodalSDK/cmumosi/CMU_MOSI_Visual_Facet_42.csd'
-OUTPUT = '../../../self_study/cmumosi_alignmets_full_all.pkl'
+OUTPUT = '../../../data/cmumosi_alignmets_full_all.pkl'
 
-def align(video_id, word_align, facet42):
+def align(video_id, word_align, facet42=None):
     # print(row)
     try:
 
@@ -50,15 +50,16 @@ def align(video_id, word_align, facet42):
 def main():
 
     word_align = pickle.load(open(WORD_ALIGN, 'rb'))
-    h5handle,data,metadata=read_CSD(os.path.join(FULL_FACET42))
+    # h5handle,data,metadata=read_CSD(os.path.join(FULL_FACET42))
     # print(word_align['_dI--eQ6qVU']['intervals'])
     word_keys = word_align.keys()
-    video_keys = data.keys()
+    # video_keys = data.keys()
 
     for video_id in word_align.keys():
         # if video_id == 'c5xsKMxpXnc':
         #     continue
-        audios, videos = align(video_id, word_align[video_id], data.get(video_id))
+        # audios, videos = align(video_id, word_align[video_id], data.get(video_id))
+        audios, videos = align(video_id, word_align[video_id])
         word_align[video_id]['audio'] = audios
         word_align[video_id]['video'] = videos
 

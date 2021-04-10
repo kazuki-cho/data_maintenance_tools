@@ -12,9 +12,9 @@ import time
 
 TEXT_PATH = '../../../CMU_MOSI_Raw/Transcript/Segmented/'
 LABEL_PATH = '../../../CMU_MOSI_Raw/Labels/OpinionLevelSentiment.csv'
-AUDIO_PATH = '../../../self_study/cmumosi_alignmets_full_all.pkl'
+AUDIO_PATH = '../../../data/cmumosi_alignmets_full_all.pkl'
 
-OUTPUT = '../../../self_study/cmumosi_full_all.pkl'
+OUTPUT = '../../../data/cmumosi_full_all.pkl'
 
 def main():
 
