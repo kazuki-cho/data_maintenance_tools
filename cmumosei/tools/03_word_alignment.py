@@ -7,13 +7,13 @@ sys.path.append('../../../p2fa_py3')
 from p2fa import align
 
 # WAV_FILE_PATH = '../CMU_MOSI_Raw/Audio/WAV_16000/Segmented/03bSnISJMiM_1.wav'
-WAV_DIR_PATH = '../CMU_MOSEI_Raw/Audio/Full/WAV_16000/'
+WAV_DIR_PATH = '../../../CMU_MOSEI_Raw/Audio/Full/WAV_16000/'
 # TRANSCRIPT_FILE_PATH = '../CMU_MOSI_Raw/Transcript/Segmented/03bSnISJMiM.annotprocessed'
 # TRANSCRIPT_DIR_PATH = '../CMU_MOSI_Raw/Transcript/Segmented/'
-TRANSCRIPT_DIR_PATH = '../CMU_MOSEI_Raw/Transcript/Full/TextOnly'
+TRANSCRIPT_DIR_PATH = '../../../CMU_MOSEI_Raw/Transcript/Full/TextOnly/'
 TEMP_DIR = 'tmp_full/'
 OUTPUT_DIR = 'output_full/'
-DATA_DIR = '../../../data'
+DATA_DIR = '../../../data/'
 word_alignments_pickle = DATA_DIR + 'cmumosei_word_alignments.pkl'
 
 
@@ -53,8 +53,6 @@ def main():
     with open(word_alignments_pickle, mode='wb') as f:
         pickle.dump(tensors, f)
 
-
-def generate_full_transcript()
             
 def generat_features(word_alignments):
     features = []
@@ -71,5 +69,3 @@ def generat_features(word_alignments):
 
 if __name__ == '__main__':
     main()
-
-

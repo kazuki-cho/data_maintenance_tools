@@ -35,7 +35,7 @@ def main():
     
     df.round(round_columns).sort_values(['VIDEO_ID', 'CLIP']).to_csv(DATA_PATH, index=False)
 
-    print(df.groupby('VIDEO_ID').count())
+    # print(df.groupby('VIDEO_ID').count())
     
 
 
@@ -59,13 +59,13 @@ def create_summary(file_name):
     # df_check = df_check[df_check['Input.VIDEO_ID'] == '_0efYOjQYRc']
 
     df_check = df_check.groupby(['Input.VIDEO_ID', 'Input.CLIP']).agg(['count', 'mean', max, min])
-    print(df_check.head())
+    # print(df_check.head())
     df_check = df_check.reset_index()
     df_check.columns = COLUMNS
 
     # df_check[['VIDEO_ID_0', 'VIDEO_ID_1']] = df_check['VIDEO_ID'].str.split('/', extend=True)
     df_check['VIDEO_ID'] = df_check['VIDEO_ID'].astype(str).apply(clean_id)
-    print(df_check.head())
+    # print(df_check.head())
     # print(df_check.columns)
 
     # df_check.to_csv(file_name + '_summary', index=False)

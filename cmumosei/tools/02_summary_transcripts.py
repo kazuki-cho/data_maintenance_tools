@@ -4,7 +4,7 @@ import glob
 
 TRANSCRIPT_PATH = '../../../CMU_MOSEI_Raw/Transcript/Segmented/Combined/'
 LABELS_PATH = '../../../data/cmumosei_labels_summary.csv'
-DATA_PATH = '../../../data/cmumosei/transcripts_summary.csv'
+DATA_PATH = '../../../data/cmumosei_transcripts_summary.csv'
 
 LABELS = ['sentiment', 'happiness', 'sadness', 'anger', 'fear', 'disgust', 'surprise']
 
@@ -34,7 +34,7 @@ def annotation(df_transcripts):
     df = df_transcripts.merge(df_labels, how='inner', on=['VIDEO_ID', 'CLIP'])
     df = df.sort_values(['VIDEO_ID', 'CLIP'])
     df['text'] = df['text'].str.strip().str.upper()
-    print(df.head())
+    # print(df.head())
     labels = [l + '_mean' for l in LABELS]
     input_columns = COLUMNS + labels
     output_columns = COLUMNS + LABELS
